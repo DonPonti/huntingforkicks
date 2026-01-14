@@ -30,7 +30,9 @@
     margin: 0;
   }
 
-  h1 span { color: #ff2d2d; }
+  h1 span {
+    color: #ff2d2d;
+  }
 
   .soon {
     color: #888;
@@ -38,40 +40,47 @@
     margin-top: 10px;
   }
 
+  #sneaker {
+    position: absolute;
+    white-space: pre;
+    font-size: 10px;
+    line-height: 1.1;
+    font-family: monospace;
 
-    #sneaker {
-  position: absolute;
-  white-space: pre;
-  font-size: 10px;
-  line-height: 1.1;
-  font-family: monospace;
+    background: linear-gradient(
+      90deg,
+      #ff2d2d,
+      #ff9a00,
+      #ffd500,
+      #00ff9c,
+      #00c3ff,
+      #a855f7,
+      #ff2d2d
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 
-  background: linear-gradient(
-    90deg,
-    #ff2d2d,
-    #ff9a00,
-    #ffd500,
-    #00ff9c,
-    #00c3ff,
-    #a855f7,
-    #ff2d2d
-  );
-  background-size: 400% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    animation: gradientFlow 8s linear infinite;
+    text-shadow: 0 0 12px rgba(255, 80, 80, 0.25);
+  }
 
-  animation: gradientFlow 8s linear infinite;
-  text-shadow: 0 0 12px rgba(255, 80, 80, 0.25);
-}
+  @keyframes gradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
+  @media (max-width: 768px) {
+    h1 { font-size: 34px; }
+    .soon { font-size: 14px; }
+    #sneaker { font-size: 6px; line-height: 1.05; }
+  }
 
-@keyframes gradientFlow {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-  
+  @media (max-width: 480px) {
+    h1 { font-size: 26px; }
+    #sneaker { font-size: 4.8px; }
+  }
 </style>
 </head>
 <body>
@@ -134,11 +143,14 @@
     const h = window.innerHeight;
     const rect = sneaker.getBoundingClientRect();
 
+    const topLimit = window.innerWidth < 600 ? 90 : 120;
+    const padding = 10;
+
     x += dx;
     y += dy;
 
-    if (x + rect.width >= w || x <= 0) dx *= -1;
-    if (y + rect.height >= h || y <= 120) dy *= -1;
+    if (x + rect.width >= w - padding || x <= padding) dx *= -1;
+    if (y + rect.height >= h || y <= topLimit) dy *= -1;
 
     sneaker.style.left = x + "px";
     sneaker.style.top = y + "px";
